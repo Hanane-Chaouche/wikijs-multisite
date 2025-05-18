@@ -10,7 +10,7 @@ on:
 jobs:
   deploy:  # Nom du job
     name: Déployer sur la VM Azure  # Nom visible dans l'interface GitHub
-    runs-on: ubuntu-latest  # 💻 GitHub va utiliser une machine Ubuntu pour exécuter les étapes
+    runs-on: ubuntu-latest  # GitHub va utiliser une machine Ubuntu pour exécuter les étapes
 
     steps:
       #  Étape 1 : Récupérer le code du dépôt GitHub
