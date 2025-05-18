@@ -1,29 +1,46 @@
+#Nom du workflow qui apparaîtra dans GitHub Actions
 name: Déploiement Wiki.js
 
+# Ce workflow se déclenche automatiquement...
 on:
   push:
     branches:
-      - main  # Déclenchement uniquement quand tu pousses sur la branche main
+      - main  # ...quand un push est fait sur la branche main
 
 jobs:
-  deploy:
-    name: Déployer sur le serveur VPS
-    runs-on: ubuntu-latest
+  deploy:  # Nom du job
+    name: Déployer sur la VM Azure  # Nom visible dans l'interface GitHub
+    runs-on: ubuntu-latest  # 💻 GitHub va utiliser une machine Ubuntu pour exécuter les étapes
 
     steps:
+      #  Étape 1 : Récupérer le code du dépôt GitHub
       - name: Cloner le dépôt
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3  # Action officielle pour récupérer ton code
 
-      - name: Configurer la clé SSH
-        uses: webfactory/ssh-agent@v0.7.0
+      #  Étape 2 : Configurer la connexion SSH avec ta clé privée (stockée dans GitHub Secrets)
+      - name: Activer l’agent SSH
+        uses: webfactory/ssh-agent@v0.7.0  # Cette action gère automatiquement la configuration SSH
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  # Clé privée sécurisée que tu as ajoutée dans GitHub
 
+      #  Étape 3 : Se connecter à ta VM et exécuter les commandes à distance
       - name: Déployer via SSH
         run: |
+          #  Connexion SSH à la VM avec utilisateur + IP (secrets)
           ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            cd /opt/wikijs-deploy
+
+            #  Aller dans le dossier du projet sur la machine distante
+            cd /home/azureuser/wikijs_project/wikijs-multisite
+
+            #  Mettre à jour le code depuis GitHub
             git pull origin main
-            docker compose down
-            docker compose up -d
-          EOF
+
+            #  Redémarrer les trois instances Wiki.js
+            docker compose -f instance/wiki1/docker-compose.yml up -d
+            docker compose -f instance/wiki2/docker-compose.yml up -d
+            docker compose -f instance/wiki3/docker-compose.yml up -d
+
+            #  Redémarrer Nginx pour prendre en compte les changements
+            docker compose -f nginx/docker-compose.yml restart
+
+          EOF  # Fin de la session SSH
