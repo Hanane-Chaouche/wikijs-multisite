@@ -1,0 +1,29 @@
+name: Déploiement Wiki.js
+
+on:
+  push:
+    branches:
+      - main  # Déclenchement uniquement quand tu pousses sur la branche main
+
+jobs:
+  deploy:
+    name: Déployer sur le serveur VPS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Cloner le dépôt
+        uses: actions/checkout@v3
+
+      - name: Configurer la clé SSH
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Déployer via SSH
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+            cd /opt/wikijs-deploy
+            git pull origin main
+            docker compose down
+            docker compose up -d
+          EOF
