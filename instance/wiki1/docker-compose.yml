@@ -1,5 +1,4 @@
 # Test déclenchement GitHub Actions
-version: "3"
 
 services:
   db:
