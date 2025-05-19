@@ -5,6 +5,5 @@ services:
     ports:
       - "80:80"  # Redirige les requêtes HTTP vers le conteneur Nginx
     volumes:
-      - ./nginx/wikijs.conf:/etc/nginx/conf.d/default.conf
-
+       - ./wikijs.conf:/etc/nginx/conf.d/default.conf
 
