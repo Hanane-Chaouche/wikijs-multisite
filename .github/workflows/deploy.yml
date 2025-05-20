@@ -27,9 +27,9 @@ jobs:
             cd /home/azureuser/wikijs-multisite
             git pull origin main
 
-            docker compose -f instance/wiki1/docker-compose.yml up -d
-            docker compose -f instance/wiki2/docker-compose.yml up -d
-            docker compose -f instance/wiki3/docker-compose.yml up -d
+            docker compose -f instances/wiki1/docker-compose.yml up -d
+            docker compose -f instances/wiki2/docker-compose.yml up -d
+            docker compose -f instances/wiki-public/docker-compose.yml up -d
 
             docker compose -f nginx/docker-compose.yml up -d
           EOF
