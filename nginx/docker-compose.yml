@@ -6,4 +6,5 @@ services:
       - "80:80"
     volumes:
       - ./wikijs.conf:/etc/nginx/conf.d/wikijs.conf
+    restart: always
     network_mode: host
