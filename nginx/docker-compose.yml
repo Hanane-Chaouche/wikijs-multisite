@@ -7,7 +7,6 @@ services:
       - "80:80"
     volumes:
       - ./wikijs.conf:/etc/nginx/conf.d/wikijs.conf
-    network_mode: host
     networks:
       - wikinet1
       - wikinet2
