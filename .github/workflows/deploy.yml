@@ -33,7 +33,7 @@ jobs:
             else
               echo "Création du dossier et initialisation..."
               sudo mkdir -p /opt/wikijs-deploy
-              sudo chown -R \$USER:\$USER /opt/wikijs-deploy
+              sudo chown -R azureuser:azureuser /opt/wikijs-deploy
               cd /opt/wikijs-deploy
 
               git init
