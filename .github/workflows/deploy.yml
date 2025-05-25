@@ -23,23 +23,47 @@ jobs:
       - name: Déployer via SSH
         run: |
           ssh -i ~/.ssh/id_ed25519 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            cd /opt/wikijs-deploy
-             # Créer le dossier s'il n'existe pas
-            sudo mkdir -p /opt/wikijs-deploy
-            sudo chown -R ${{ secrets.VPS_USER }}:${{ secrets.VPS_USER }} /opt/wikijs-deploy
-            cd /opt/wikijs-deploy
-                   # Déclarer le dossier comme sûr pour Git
-            git config --global --add safe.directory /opt/wikijs-deploy
-              # Cloner ou mettre à jour le dépôt
-            if [ ! -d .git ]; then
-              git clone git@github.com:Hanane-Chaouche/wikijs-multisite.git .
-            else
-             git pull origin main
-            fi
-            docker compose -f instances/wiki1/docker-compose.yml up -d
-            docker compose -f instances/wiki2/docker-compose.yml up -d
-            docker compose -f instances/wiki-public/docker-compose.yml up -d
-            docker compose -f nginx/docker-compose.yml up -d
-          EOF
+            - name: Déployer via SSH
+  run: |
+    ssh -i ~/.ssh/id_ed25519 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+      set -e
+
+      # Créer le dossier ~/.ssh si nécessaire
+      mkdir -p ~/.ssh
+
+      # Ajouter la clé privée SEULEMENT si elle n'existe pas déjà
+      if [ ! -f ~/.ssh/id_ed25519 ]; then
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+      fi
+
+      # Ajouter github.com à known_hosts pour éviter les avertissements
+      ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+
+      # Vérifier si le dossier de déploiement existe
+      if [ -d /opt/wikijs-deploy ]; then
+        echo "Le dossier existe déjà. Mise à jour..."
+        cd /opt/wikijs-deploy
+        git config --global --add safe.directory /opt/wikijs-deploy
+        git pull origin main
+      else
+        echo "Le dossier n'existe pas. Création et initialisation..."
+        sudo mkdir -p /opt/wikijs-deploy
+        sudo chown -R \$USER:\$USER /opt/wikijs-deploy
+        cd /opt/wikijs-deploy
+
+        git init
+        git config --global --add safe.directory /opt/wikijs-deploy
+        git remote add origin git@github.com:Hanane-Chaouche/wikijs-multisite.git
+        git pull origin main
+      fi
+
+      # Lancer les conteneurs Docker
+      docker compose -f instances/wiki1/docker-compose.yml up -d
+      docker compose -f instances/wiki2/docker-compose.yml up -d
+      docker compose -f instances/wiki-public/docker-compose.yml up -d
+      docker compose -f nginx/docker-compose.yml up -d
+    EOF
+
 
  
