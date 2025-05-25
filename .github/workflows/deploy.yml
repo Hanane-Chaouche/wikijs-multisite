@@ -35,7 +35,7 @@ jobs:
 
             # 📁 Créer le dossier
             sudo mkdir -p /opt/wikijs-deploy
-            sudo chown -R \$secrets.VPS_USER:\$secrets.VPS_USER /opt/wikijs-deploy
+            sudo chown -R $USER:$USER /opt/wikijs-deploy
             cd /opt/wikijs-deploy
 
             # 📦 Initialiser Git + synchroniser le dépôt
