@@ -25,6 +25,21 @@ jobs:
         run: |
           ssh -i ~/.ssh/id_ed25519 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
             cd /opt/wikijs-deploy
+             # Créer le dossier s'il n'existe pas
+            sudo mkdir -p /opt/wikijs-deploy
+            sudo chown -R ${{ secrets.VPS_USER }}:${{ secrets.VPS_USER }} /opt/wikijs-deploy
+            cd /opt/wikijs-deploy
+
+                   # Déclarer le dossier comme sûr pour Git
+            git config --global --add safe.directory /opt/wikijs-deploy
+
+              # Cloner ou mettre à jour le dépôt
+            if [ ! -d .git ]; then
+              git clone git@github.com:Hanane-Chaouche/wikijs-multisite.git .
+            else
+             git pull origin main
+            fi
+
             git pull origin main
 
             docker compose -f instances/wiki1/docker-compose.yml up -d
