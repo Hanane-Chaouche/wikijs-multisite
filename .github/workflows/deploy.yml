@@ -1,1 +1,60 @@
+name: Déploiement Wiki.js
 
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Déployer sur la VM Azure
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Cloner le dépôt (GitHub Actions)
+        uses: actions/checkout@v3
+
+      - name: Configurer SSH pour GitHub Actions
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Déployer sur la VM Azure
+        run: |
+          ssh -i ~/.ssh/id_ed25519 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+            set -e
+
+            # 🔐 Ajouter la clé privée dans la VM
+            mkdir -p ~/.ssh
+            echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+            chmod 600 ~/.ssh/id_ed25519
+            ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+
+            # 📁 Créer le dossier de déploiement si nécessaire
+            sudo mkdir -p /opt/wikijs-deploy
+            sudo chown -R $USER:$USER /opt/wikijs-deploy
+            cd /opt/wikijs-deploy
+
+            # 📦 Initialiser Git uniquement si nécessaire
+            if [ ! -d .git ]; then
+              git init
+              git config --global --add safe.directory /opt/wikijs-deploy
+              git remote add origin git@github.com:Hanane-Chaouche/wikijs-multisite.git
+            fi
+
+            # 🧪 Test SSH GitHub (affiche si la clé est acceptée)
+            echo "🔍 Test de connexion SSH à GitHub"
+            ssh -o StrictHostKeyChecking=no -T git@github.com || true
+
+            # 🔄 Tirer les mises à jour depuis GitHub
+            git pull origin main
+
+            # 🐳 Lancer les conteneurs Docker
+            docker compose -f instances/wiki1/docker-compose.yml up -d
+            docker compose -f instances/wiki2/docker-compose.yml up -d
+            docker compose -f instances/wiki-public/docker-compose.yml up -d
+            docker compose -f nginx/docker-compose.yml up -d
+          EOF
