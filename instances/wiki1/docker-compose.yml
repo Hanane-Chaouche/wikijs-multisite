@@ -27,7 +27,12 @@ services:
       - db
     volumes:
       - wiki1-data:/wiki/data
+    networks:
+      - wikinet1
 
 volumes:
   db-wiki1:
   wiki1-data:
+
+networks:
+  wikinet1: 
