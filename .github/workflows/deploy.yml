@@ -43,4 +43,4 @@ jobs:
             docker compose -f instances/wiki-public/docker-compose.yml up -d
             docker compose -f nginx/docker-compose.yml up -d
           EOF
-Update deploy.yml · Hanane-Chaouche/wikijs-multisite@d63c8a0
+
