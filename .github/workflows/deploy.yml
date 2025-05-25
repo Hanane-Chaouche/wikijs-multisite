@@ -24,7 +24,7 @@ jobs:
       - name: Déployer via SSH
         run: |
           ssh -i ~/.ssh/id_ed25519 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            cd opt/wikijs-deploy
+            cd /opt/wikijs-deploy
             git pull origin main
 
             docker compose -f instances/wiki1/docker-compose.yml up -d
