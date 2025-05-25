@@ -22,37 +22,35 @@ jobs:
           ssh-keyscan -H github.com >> ~/.ssh/known_hosts
           ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Déployer sur la VM
+      - name: Déployer sur la VM Azure
         run: |
           ssh -i ~/.ssh/id_ed25519 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            set -e  # Stop script on error
+            set -e  # Arrête le script en cas d'erreur
 
-            # 🔐 Ajouter GitHub à known_hosts (dans la VM)
+            # Ajouter GitHub à known_hosts (dans la VM)
             ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
-            # 📁 Créer le dossier du projet si besoin
+            # Créer le dossier de déploiement
             sudo mkdir -p /opt/wikijs-deploy
             sudo chown -R $USER:$USER /opt/wikijs-deploy
             cd /opt/wikijs-deploy
 
-            # 💡 Préparer l'agent SSH et la clé
+            # Configurer la clé privée dans la VM
             mkdir -p ~/.ssh
             echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
             chmod 600 ~/.ssh/id_ed25519
-            eval "\$(ssh-agent -s)"
-            ssh-add ~/.ssh/id_ed25519
 
-            # ✅ Autoriser Git à faire confiance au dossier
+            # Déclarer le dossier comme sûr pour Git
             git config --global --add safe.directory /opt/wikijs-deploy
 
-            # 🔄 Cloner ou mettre à jour le dépôt
+            # Cloner ou mettre à jour le dépôt
             if [ ! -d .git ]; then
               git clone git@github.com:Hanane-Chaouche/wikijs-multisite.git .
             else
               git pull origin main
             fi
 
-            # 🐳 Lancer les services
+            # Démarrer les services Docker
             docker compose -f instances/wiki1/docker-compose.yml up -d
             docker compose -f instances/wiki2/docker-compose.yml up -d
             docker compose -f instances/wiki-public/docker-compose.yml up -d
