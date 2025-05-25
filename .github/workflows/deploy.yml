@@ -35,6 +35,7 @@ jobs:
               sudo mkdir -p /opt/wikijs-deploy
               sudo chown -R azureuser:azureuser /opt/wikijs-deploy
               cd /opt/wikijs-deploy
+              echo "acceder au  dossier ..."
 
               git init
               git config --global --add safe.directory /opt/wikijs-deploy
