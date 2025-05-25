@@ -35,4 +35,6 @@ volumes:
   wiki1-data:
 
 networks:
-  wikinet1: 
+  wikinet1:
+    external: true
+

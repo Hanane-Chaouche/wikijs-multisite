@@ -33,3 +33,5 @@ volumes:
   wiki2-data:
 networks:
   wikinet2:
+    external: true
+
