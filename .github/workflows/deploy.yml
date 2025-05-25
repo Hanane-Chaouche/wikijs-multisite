@@ -26,7 +26,7 @@ jobs:
           ssh -i ~/.ssh/id_ed25519 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
             
             # Vérifier le dossier de déploiement
-            if [ -d /opt/wikijs-deploy ]; then
+             if [ -d /opt/wikijs-deploy/.git ]; then
               echo "Le dossier existe déjà. Mise à jour..."
               cd /opt/wikijs-deploy
               git pull origin main
