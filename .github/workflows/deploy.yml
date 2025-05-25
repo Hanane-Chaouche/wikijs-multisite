@@ -24,7 +24,7 @@ jobs:
       - name: Déployer via SSH
         run: |
           ssh -i ~/.ssh/id_ed25519 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            sh-keyscan -H github.com >> ~/.ssh/known_hosts
+            shh-keyscan -H github.com >> ~/.ssh/known_hosts
             # Créer le dossier s'il n'existe pas
             sudo mkdir -p /opt/wikijs-deploy
             sudo chown -R ${{ secrets.VPS_USER }}:${{ secrets.VPS_USER }} /opt/wikijs-deploy
