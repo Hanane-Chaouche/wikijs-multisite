@@ -1,29 +1,4 @@
 
-Skip to content
-Navigation Menu
-Hanane-Chaouche
-wikijs-multisite
-
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-
-    Settings
-
-Déploiement Wiki.js
-Update deploy.yml #43
-
-Jobs
-
-Run details
-
-Workflow file for this run
-.github/workflows/deploy.yml at d63c8a0
 name: Déploiement Wiki.js
 
 on:
