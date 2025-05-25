@@ -24,13 +24,12 @@ jobs:
       - name: Déployer via SSH
         run: |
           ssh -i ~/.ssh/id_ed25519 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            cd /opt/wikijs-deploy
-             # Créer le dossier s'il n'existe pas
+            # Créer le dossier s'il n'existe pas
             sudo mkdir -p /opt/wikijs-deploy
             sudo chown -R ${{ secrets.VPS_USER }}:${{ secrets.VPS_USER }} /opt/wikijs-deploy
             cd /opt/wikijs-deploy
 
-                   # Déclarer le dossier comme sûr pour Git
+            # Déclarer le dossier comme sûr pour Git
             git config --global --add safe.directory /opt/wikijs-deploy
 
               # Cloner ou mettre à jour le dépôt
