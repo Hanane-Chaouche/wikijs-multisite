@@ -25,32 +25,36 @@ jobs:
       - name: Déployer sur la VM Azure
         run: |
           ssh -i ~/.ssh/id_ed25519 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            set -e  # Arrête le script en cas d'erreur
+            set -e  # Stop script on error
 
-            # Ajouter GitHub à known_hosts (dans la VM)
+            # 🔐 Ajouter GitHub à known_hosts (dans la VM)
             ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
-            # Créer le dossier de déploiement
+            # 📁 Créer le dossier de déploiement
             sudo mkdir -p /opt/wikijs-deploy
-            sudo chown -R $USER:$USER /opt/wikijs-deploy
+            sudo chown -R \$USER:\$USER /opt/wikijs-deploy
             cd /opt/wikijs-deploy
 
-            # Configurer la clé privée dans la VM
+            # 🔑 Ajouter la clé SSH dans la VM
             mkdir -p ~/.ssh
             echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
             chmod 600 ~/.ssh/id_ed25519
 
-            # Déclarer le dossier comme sûr pour Git
+            # 🧪 TEST DE CONNEXION À GITHUB
+            echo "🔍 Test de connexion SSH à GitHub..."
+            ssh -o StrictHostKeyChecking=no -T git@github.com || true
+
+            # 📦 Git config safe directory
             git config --global --add safe.directory /opt/wikijs-deploy
 
-            # Cloner ou mettre à jour le dépôt
+            # 🔄 Cloner ou mettre à jour le dépôt
             if [ ! -d .git ]; then
               git clone git@github.com:Hanane-Chaouche/wikijs-multisite.git .
             else
               git pull origin main
             fi
 
-            # Démarrer les services Docker
+            # 🐳 Lancer les services
             docker compose -f instances/wiki1/docker-compose.yml up -d
             docker compose -f instances/wiki2/docker-compose.yml up -d
             docker compose -f instances/wiki-public/docker-compose.yml up -d
