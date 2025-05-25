@@ -1,3 +1,29 @@
+
+Skip to content
+Navigation Menu
+Hanane-Chaouche
+wikijs-multisite
+
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+
+    Settings
+
+Déploiement Wiki.js
+Update deploy.yml #65
+
+Jobs
+
+Run details
+
+Workflow file for this run
+.github/workflows/deploy.yml at c94e825
 name: Déploiement Wiki.js
 
 on:
@@ -20,36 +46,26 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
-
       - name: Déployer via SSH
         run: |
           ssh -i ~/.ssh/id_ed25519 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            set -e
-
-            if [ -d /opt/wikijs-deploy ]; then
-              echo "Le dossier existe déjà. Mise à jour..."
-              cd /opt/wikijs-deploy
-              git pull origin main
+            cd /opt/wikijs-deploy
+             # Créer le dossier s'il n'existe pas
+            sudo mkdir -p /opt/wikijs-deploy
+            sudo chown -R ${{ secrets.VPS_USER }}:${{ secrets.VPS_USER }} /opt/wikijs-deploy
+            cd /opt/wikijs-deploy
+                   # Déclarer le dossier comme sûr pour Git
+            git config --global --add safe.directory /opt/wikijs-deploy
+              # Cloner ou mettre à jour le dépôt
+            if [ ! -d .git ]; then
+              git clone git@github.com:Hanane-Chaouche/wikijs-multisite.git .
             else
-              echo "Le dossier n'existe pas. Création..."
-              sudo mkdir -p /opt/wikijs-deploy
-              sudo chown -R $USER:$USER /opt/wikijs-deploy
-              cd /opt/wikijs-deploy
-
-              mkdir -p ~/.ssh
-              echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-              chmod 600 ~/.ssh/id_ed25519
-              ssh-keyscan -H github.com >> ~/.ssh/known_hosts
-
-              git init
-              git config --global --add safe.directory /opt/wikijs-deploy
-              git remote add origin git@github.com:Hanane-Chaouche/wikijs-multisite.git
-              git pull origin main
+             git pull origin main
             fi
-
             docker compose -f instances/wiki1/docker-compose.yml up -d
             docker compose -f instances/wiki2/docker-compose.yml up -d
             docker compose -f instances/wiki-public/docker-compose.yml up -d
             docker compose -f nginx/docker-compose.yml up -d
           EOF
-
+Update deploy.yml · Hanane-Chaouche/wikijs-multisite@c94e825 
+ 
