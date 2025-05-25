@@ -30,7 +30,6 @@ jobs:
             if [ -d /opt/wikijs-deploy ]; then
               echo "Le dossier existe déjà. Mise à jour..."
               cd /opt/wikijs-deploy
-              git config --global --add safe.directory /opt/wikijs-deploy
               git pull origin main
             else
               echo "Le dossier n'existe pas. Création..."
