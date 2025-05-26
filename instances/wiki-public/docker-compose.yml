@@ -8,7 +8,8 @@ services:
       POSTGRES_PASSWORD: wikijs123
     volumes:
       - db-wiki-public:/var/lib/postgresql/data
-
+    networks:
+      - wikinet3
   wikijs:
     image: requarks/wiki:2
     restart: always
