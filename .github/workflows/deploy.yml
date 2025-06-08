@@ -24,9 +24,9 @@ jobs:
       - name: Déployer sur la VM Azure
         run: |
           ssh -i ~/.ssh/id_ed25519 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            
+
             # Vérifier le dossier de déploiement
-             if [ -d /opt/wikijs-deploy/.git ]; then
+            if [ -d /opt/wikijs-deploy/.git ]; then
               echo "Le dossier existe déjà. Mise à jour..."
               cd /opt/wikijs-deploy
               git pull origin main
@@ -35,8 +35,7 @@ jobs:
               sudo mkdir -p /opt/wikijs-deploy
               sudo chown -R azureuser:azureuser /opt/wikijs-deploy
               cd /opt/wikijs-deploy
-              echo "acceder au  dossier ..."
-
+              echo "Accès au dossier..."
               git init
               git config --global --add safe.directory /opt/wikijs-deploy
               git remote add origin git@github.com:Hanane-Chaouche/wikijs-multisite.git
@@ -48,4 +47,12 @@ jobs:
             docker compose -f instances/wiki2/docker-compose.yml up -d
             docker compose -f instances/wiki-public/docker-compose.yml up -d
             docker compose -f nginx/docker-compose.yml up -d
+
+            # Déploiement du webhook PayPal
+            echo "Déploiement du webhook PayPal..."
+            cd /opt/wikijs-deploy/paypal-webhook
+            pip3 install -r requirements.txt
+            pkill gunicorn || true
+            nohup gunicorn --bind 127.0.0.1:8000 webhook:app &
+
           EOF
