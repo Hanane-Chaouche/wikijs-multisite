@@ -4,7 +4,7 @@
 
 Ce projet déploie une plateforme multi-instances de [Wiki.js](https://js.wiki/) avec Docker Compose.  
 Chaque instance est isolée, avec sa propre base PostgreSQL, et accessible via un reverse proxy Nginx.  
-Le tout est automatisé avec **GitHub Actions**.
+Le tout est automatisé avec ***GitHub Actions***.
 
 ---
 
