@@ -25,7 +25,7 @@ jobs:
         run: |
           ssh -i ~/.ssh/id_ed25519 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
 
-            echo "🔧 Installation des dépendances..."
+            echo "Installation des dépendances..."
             sudo apt update -y
             sudo apt install -y python3-pip git
 
