@@ -25,7 +25,7 @@ jobs:
         run: |
           ssh -i ~/.ssh/id_ed25519 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
 
-            echo "🔧 Mise à jour des paquets et dépendances Python..."
+            echo " Mise à jour des paquets et dépendances Python..."
             sudo apt update -y
             sudo apt install -y python3-pip python3-venv git
 
