@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Cloner le dépôt
+      - name: Cloner le dépôt GitHub
         uses: actions/checkout@v3
 
       - name: Configurer SSH pour accéder à la VM
@@ -25,14 +25,14 @@ jobs:
         run: |
           ssh -i ~/.ssh/id_ed25519 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
 
-            echo "Installation des dépendances..."
+            echo "🔧 Mise à jour des paquets et dépendances Python..."
             sudo apt update -y
-            sudo apt install -y python3-pip git
+            sudo apt install -y python3-pip python3-venv git
 
             echo " Suppression de l'ancien dossier..."
             sudo rm -rf /opt/wikijs-deploy
 
-            echo " Clonage du dépôt directement dans /opt/wikijs-deploy..."
+            echo "Clonage du dépôt directement dans /opt/wikijs-deploy..."
             sudo git clone git@github.com:Hanane-Chaouche/wikijs-multisite.git /opt/wikijs-deploy
             sudo chown -R $USER:$USER /opt/wikijs-deploy
 
@@ -43,11 +43,17 @@ jobs:
             docker compose -f instances/wiki-public/docker-compose.yml up -d
             docker compose -f nginx/docker-compose.yml up -d
 
-            echo "Déploiement du webhook PayPal..."
+            echo " Déploiement du webhook PayPal..."
             cd /opt/wikijs-deploy/paypal-webhook
-            pip3 install -r requirements.txt
-            pip3 install gunicorn
+
+            # Créer un virtualenv
+            python3 -m venv venv
+            ./venv/bin/pip install --upgrade pip
+            ./venv/bin/pip install -r requirements.txt
+            ./venv/bin/pip install gunicorn
+
+            # Démarrage de gunicorn
             pkill gunicorn || true
-            nohup gunicorn --bind 127.0.0.1:8000 webhook:app &
+            nohup ./venv/bin/gunicorn --bind 127.0.0.1:8000 webhook:app &
 
           EOF
