@@ -17,3 +17,4 @@ services:
 networks:
   wikinet2:
     external: true
+
