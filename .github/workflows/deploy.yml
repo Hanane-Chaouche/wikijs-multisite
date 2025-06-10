@@ -33,7 +33,7 @@ jobs:
             else
               echo "Pull des dernières modifications..."
               cd /opt/wikijs-deploy
-              git pull
+              git pull origin main
             fi
             echo " Lancement des services Docker..."
             cd /opt/wikijs-deploy
