@@ -43,17 +43,6 @@ jobs:
             docker compose -f instances/wiki-public/docker-compose.yml up -d
             docker compose -f nginx/docker-compose.yml up -d
 
-            echo " Déploiement du webhook PayPal..."
-            cd /opt/wikijs-deploy/paypal-webhook
-
-            # Créer un virtualenv
-            python3 -m venv venv
-            ./venv/bin/pip install --upgrade pip
-            ./venv/bin/pip install -r requirements.txt
-            ./venv/bin/pip install gunicorn
-
-            # Démarrage de gunicorn
-            pkill gunicorn || true
-            nohup ./venv/bin/gunicorn --bind 127.0.0.1:8000 webhook:app &
+            
 
           EOF
