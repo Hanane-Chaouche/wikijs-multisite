@@ -42,6 +42,8 @@ jobs:
             docker compose -f instances/wiki2/docker-compose.yml up -d
             docker compose -f instances/wiki-public/docker-compose.yml up -d
             docker compose -f nginx/docker-compose.yml up -d
+            docker compose -f paypal-webhook/docker-compose.yml up -d
+
 
             
 
