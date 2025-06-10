@@ -7,7 +7,7 @@ services:
     restart: always
     working_dir: /app
     volumes:
-      - ./paypal-webhook:/app
+      - .:/app
     command: sh -c "pip install --no-cache-dir -r requirements.txt && gunicorn -w 2 -b 0.0.0.0:8000 webhook:app"
     ports:
       - "8085:8000"
