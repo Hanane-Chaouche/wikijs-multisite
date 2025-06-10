@@ -1,16 +1,16 @@
 version: '3.8'
 
 services:
-  paypal-webhook:
+  paypal-webhook2:
     image: python:3.10
-    container_name: paypal-webhook
+    container_name: paypal-webhook2
     restart: always
     working_dir: /app
     volumes:
       - ./paypal-webhook:/app
     command: sh -c "pip install --no-cache-dir -r requirements.txt && gunicorn -w 2 -b 0.0.0.0:8000 webhook:app"
     ports:
-      - "8084:8000"
+      - "8085:8000"
     networks:
       - wikinet2
 
