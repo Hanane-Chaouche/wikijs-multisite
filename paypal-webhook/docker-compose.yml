@@ -4,7 +4,6 @@ services:
   paypal-webhook2:
     image: python:3.10
     container_name: paypal-webhook2
-    restart: always
     working_dir: /app
     volumes:
       - .:/app
