@@ -3,6 +3,7 @@ version: '3.8'
 services:
   paypal-webhook2:
     image: python:3.10
+    restart: always
     container_name: paypal-webhook2
     working_dir: /app
     volumes:
