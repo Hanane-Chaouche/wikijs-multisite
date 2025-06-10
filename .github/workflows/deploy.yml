@@ -25,24 +25,29 @@ jobs:
         run: |
           ssh -i ~/.ssh/id_ed25519 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
 
-            echo " Mise à jour des paquets et dépendances Python..."
-            sudo apt update -y
-            sudo apt install -y python3-pip python3-venv git
+            echo "Vérification du dossier /opt/wikijs-deploy..."
+            if [ ! -d /opt/wikijs-deploy ]; then
+              echo " Clonage du dépôt pour la première fois..."
+              sudo git clone git@github.com:Hanane-Chaouche/wikijs-multisite.git /opt/wikijs-deploy
+              sudo chown -R $USER:$USER /opt/wikijs-deploy
+              
+            else
+              echo "Pull des dernières modifications..."
+              cd /opt/wikijs-deploy
+              git pull
+            fi
 
-            echo " Suppression de l'ancien dossier..."
-            sudo rm -rf /opt/wikijs-deploy
-
-            echo "Clonage du dépôt directement dans /opt/wikijs-deploy..."
-            sudo git clone git@github.com:Hanane-Chaouche/wikijs-multisite.git /opt/wikijs-deploy
-            sudo chown -R $USER:$USER /opt/wikijs-deploy
-
-            echo " Lancement des services Docker..."
+            echo "Lancement des services Docker modifiés..."
             cd /opt/wikijs-deploy
+
             docker compose -f instances/wiki1/docker-compose.yml up -d
             docker compose -f instances/wiki2/docker-compose.yml up -d
             docker compose -f instances/wiki-public/docker-compose.yml up -d
             docker compose -f nginx/docker-compose.yml up -d
             docker compose -f paypal-webhook/docker-compose.yml up -d
+
+          EOF
+
 
 
             
