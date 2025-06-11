@@ -1,4 +1,4 @@
-# - Plateforme WikiJS Multi-sites 
+#  Plateforme WikiJS Multi-sites 
 
 ![CI/CD](https://github.com/Hanane-Chaouche/wikijs-multisite/actions/workflows/deploy.yml/badge.svg)
 
