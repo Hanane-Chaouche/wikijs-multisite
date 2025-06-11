@@ -28,6 +28,7 @@ jobs:
             if [ -d /opt/wikijs-deploy ]; then
               echo " Le dossier existe, pull des dernières modifications..."
               cd /opt/wikijs-deploy
+              sudo chown -R $USER:$USER .
               git pull origin main
             else
               echo " Clonage initial du dépôt..."
