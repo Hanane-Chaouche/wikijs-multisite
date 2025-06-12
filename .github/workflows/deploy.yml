@@ -29,10 +29,10 @@ jobs:
               echo " Le dossier existe, pull des dernières modifications..."
               cd /opt/wikijs-deploy
               sudo chown -R $USER:$USER .
-              sudo git pull origin main
+              git pull origin main
             else
               echo " Clonage initial du dépôt..."
-              sudo git clone git@github.com:Hanane-Chaouche/wikijs-multisite.git /opt/wikijs-deploy
+              git clone git@github.com:Hanane-Chaouche/wikijs-multisite.git /opt/wikijs-deploy
             fi
             echo " Lancement des services Docker..."
             cd /opt/wikijs-deploy
