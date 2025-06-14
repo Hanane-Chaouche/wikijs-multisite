@@ -13,6 +13,6 @@ def webhook():
     print("Webhook PayPal (enseignant) reçu :", data)
 
     if data.get("event_type") == "PAYMENT.SALE.COMPLETED":
-        print("✅ Paiement réussi !")
+        print("Paiement réussi !")
 
     return jsonify({'status': 'OK'}), 200
