@@ -21,7 +21,7 @@ def webhook():
 
     return jsonify({'status': 'OK'}), 200
 
-@app.route('/paypal/data', methods=['GET'])
+@app.route('/paypal/logs', methods=['GET'])
 def show_logs():
     if not os.path.exists(LOG_FILE):
         return "<h3>Aucune transaction enregistrée.</h3>", 200
