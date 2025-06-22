@@ -51,7 +51,7 @@ wikijs-multisite/
 │ └── deploy.yml
 │
 └── README.md # <– Ce fichier
-
+```
 
 ---
 
