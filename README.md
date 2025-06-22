@@ -88,8 +88,10 @@ docker compose -f nginx/docker-compose.yml up -d
 
 Pour se connecter à la machine virtuelle Azure :
 
-ssh -i sshkey.pem azureuser@4.206.99.81
 
+```
+ssh -i sshkey.pem azureuser@4.206.99.81
+```
 
 sshkey.pem : ta clé privée (à garder secrète)
 
@@ -113,7 +115,9 @@ Les sous-domaines suivants pointent tous vers la même VM (reverse proxy Nginx)�
 💸 Webhook & Paiement PayPal
 
     Un bouton PayPal personnalisé est accessible sur
+    ```
     https://enseignant.wikijspublique.me/bouton/paypal-button.html
+    ```
 
     Quand un paiement est validé, le frontend envoie un POST vers le webhook :
 
