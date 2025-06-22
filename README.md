@@ -108,7 +108,7 @@ Pour se connecter à la machine virtuelle Azure :
 
 ```bash
 ssh -i sshkey.pem azureuser@4.206.99.81
-
+```
 
 Pour se connecter à la machine virtuelle Azure :
 
