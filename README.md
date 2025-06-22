@@ -114,16 +114,16 @@ Les sous-domaines suivants pointent tous vers la même VM (reverse proxy Nginx)�
     
 💸 Webhook & Paiement PayPal
 
-    Un bouton PayPal personnalisé est accessible sur
+   Un bouton PayPal personnalisé est accessible sur
  ```
     https://enseignant.wikijspublique.me/bouton/paypal-button.html
  ```
 
-    Quand un paiement est validé, le frontend envoie un POST vers le webhook :
+   Quand un paiement est validé, le frontend envoie un POST vers le webhook :
 ```
         https://enseignant.wikijspublique.me/paypal/webhook
 ```
-    Le microservice Python/Flask reçoit et logue la transaction dans paypal_log.txt.
+   Le microservice Python/Flask reçoit et logue la transaction dans paypal_log.txt.
 
 
     
