@@ -102,6 +102,7 @@ docker compose up -d
 
 🌍 Accès à la plateforme et aux domaines
 🔑 Accès SSH à la VM
+
 ```
 ssh -i sshkey.pem azureuser@4.206.99.81
 ```
@@ -117,18 +118,22 @@ Remplace sshkey.pem par ta clé privée.
 ````
     https://admin.wikijspublique.me → wiki1
 ````
+
 Les DNS doivent pointer vers l’IP publique de la VM Azure (4.206.99.81).
 Assure-toi que les DNS pointent vers l’IP publique de ta VM Azure.
 
 
-💸 Webhook & Paiement PayPal
+## 💸 Webhook & Paiement PayPal
+
 Le bouton PayPal :
 🔗 Bouton PayPal personnalisé
 Webhook de réception après paiement validé :
+
 POST https://enseignant.wikijspublique.me/paypal/webhook
 Les transactions sont enregistrées dans paypal_log.txt.
 
-📦 Dépendances
+## 📦 Dépendances
+
 - Docker
 - Docker Compose
 - Wiki.js
@@ -144,7 +149,8 @@ Les transactions sont enregistrées dans paypal_log.txt.
 
 
 
-🤖 Déploiement automatique
+## 🤖 Déploiement automatique
+
 Chaque push sur la branche main déclenche un workflow GitHub Actions :
 - Se connecte à la VM via SSH
 - Exécute git pull et redémarre les services Docker
