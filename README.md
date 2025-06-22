@@ -122,7 +122,6 @@ Remplace sshkey.pem par ta clé privée.
 Les DNS doivent pointer vers l’IP publique de la VM Azure (4.206.99.81).
 Assure-toi que les DNS pointent vers l’IP publique de ta VM Azure.
 
-
 ## 💸 Webhook & Paiement PayPal
 
 Le bouton PayPal :
@@ -146,7 +145,6 @@ Les transactions sont enregistrées dans paypal_log.txt.
 | wiki1       | 3001         | Wiki privé du site 1 |
 | wiki2       | 3002         | Wiki privé du site 2 |
 | wiki-public | 3003         | Wiki public général  |
-
 
 
 ## 🤖 Déploiement automatique
