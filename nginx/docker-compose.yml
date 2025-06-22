@@ -10,7 +10,7 @@ services:
     volumes:
       - ./wikijs.conf:/etc/nginx/conf.d/default.conf      # Config Nginx pour les domaines
       - /etc/letsencrypt:/etc/letsencrypt:ro              # Certificats SSL en lecture seule
-      - ./bouton:/opt/wikijs-deploy/bouton:ro
+      - ./bouton:/usr/share/nginx/html/bouton
     networks:
       - wikinet1
       - wikinet2
