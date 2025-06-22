@@ -96,7 +96,6 @@ docker compose up -d
 cd ../paypal-webhook
 docker compose up -d
 
-
 # Lancer le reverse proxy Nginx
 docker compose -f nginx/docker-compose.yml up -d
 
@@ -105,13 +104,6 @@ docker compose -f nginx/docker-compose.yml up -d
 ### 🔑 Accès SSH à la VM
 
 Pour se connecter à la machine virtuelle Azure :
-
-```bash
-ssh -i sshkey.pem azureuser@4.206.99.81
-```
-
-Pour se connecter à la machine virtuelle Azure :
-
 
 ```
 ssh -i sshkey.pem azureuser@4.206.99.81
