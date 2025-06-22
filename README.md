@@ -131,13 +131,13 @@ Les sous-domaines suivants pointent tous vers la même VM (reverse proxy Nginx)�
 
 📦 Dépendances
 
-    Docker
+   Docker
 
-    Docker Compose
+   Docker Compose
 
-    Wiki.js
+   Wiki.js
 
-    GitHub Actions
+   GitHub Actions
 
 📘 Instances Wiki.js
 | Instance    | Port interne | Description          |
@@ -150,22 +150,22 @@ Les sous-domaines suivants pointent tous vers la même VM (reverse proxy Nginx)�
 
 💸 Module PayPal Webhook
 
-    Dossier : paypal-webhook/
+   Dossier : paypal-webhook/
 
-    Microservice Python/Flask qui reçoit les notifications PayPal sur /paypal/webhook
+   Microservice Python/Flask qui reçoit les notifications PayPal sur /paypal/webhook
 
-    Les paiements sont logués dans paypal_log.txt
+   Les paiements sont logués dans paypal_log.txt
 
 
 🤖 Déploiement automatique
 
 Chaque push sur la branche main déclenche un workflow GitHub Actions (.github/workflows/deploy.yml) qui :
 
-    se connecte à la VM via SSH
+   se connecte à la VM via SSH
 
-    exécute git pull et redémarre les services Docker
+   exécute git pull et redémarre les services Docker
 
-    met à jour automatiquement Nginx et les wikis
+   met à jour automatiquement Nginx et les wikis
 
 👤 Auteur
 
