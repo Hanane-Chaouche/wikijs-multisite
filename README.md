@@ -79,20 +79,26 @@ wikijs-multisite/
 ```bash
 git clone https://github.com/Hanane-Chaouche/wikijs-multisite.git
 cd wikijs-multisite
+````
 
 # Lancer les instances Wiki.js
+```
 docker compose -f instances/wiki1/docker-compose.yml up -d
 docker compose -f instances/wiki2/docker-compose.yml up -d
 docker compose -f instances/wiki-public/docker-compose.yml up -d
+```
 
 # Lancer le reverse proxy Nginx
+```
 cd nginx
 docker compose up -d
+```
 
 # (Optionnel) Lancer le microservice webhook PayPal
+```
 cd ../paypal-webhook
 docker compose up -d
-
+```
 
 🌍 Accès à la plateforme et aux domaines
 🔑 Accès SSH à la VM
