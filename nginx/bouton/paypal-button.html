@@ -2,13 +2,13 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Paiement avec PayPal</title>
+  <title>Paiement avec PayPal maj </title>
 
   <!-- Utilise ton vrai client ID sandbox -->
   <script src="https://www.paypal.com/sdk/js?client-id=AQB62U3_oGyjeDtHvICRxj3SBop555-it8WD5AN1fG96Q4XZxsv7f31VU2rydhYeA3xRXld6qs__pcHY&currency=USD"></script>
 </head>
 <body>
-  <h1>Paiement sécurisé Wiki.js</h1>
+  <h1>Paiement sécurisé Wiki.js mas</h1>
 
   <!-- Zone d'affichage du bouton PayPal -->
   <div id="paypal-button-container"></div>
@@ -27,7 +27,27 @@
       onApprove: function(data, actions) {
         return actions.order.capture().then(function(details) {
           alert(' Paiement validé par : ' + details.payer.name.given_name);
-          // Optionnel : appel vers ton webhook ici
+          console.log(' Détails complets :', details);
+
+          //  Envoi vers le serveur Flask
+          fetch('https://enseignant.wikijspublique.me/paypal/webhook', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              event_type: "PAYMENT.SALE.COMPLETED",
+              resource: details
+            })
+          }).then(response => {
+            if (response.ok) {
+              console.log("Webhook envoyé avec succès !");
+            } else {
+              console.error("Échec d'envoi du webhook");
+            }
+          }).catch(error => {
+            console.error("Erreur réseau :", error);
+          });
         });
       }
     }).render('#paypal-button-container');
