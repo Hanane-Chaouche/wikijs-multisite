@@ -83,6 +83,46 @@ docker compose -f instances/wiki-public/docker-compose.yml up -d
 # Lancer le reverse proxy Nginx
 docker compose -f nginx/docker-compose.yml up -d
 
+🌍 Accès à la plateforme et aux domaines
+🔑 Accès SSH à la VM
+
+Pour se connecter à la machine virtuelle Azure :
+
+ssh -i sshkey.pem azureuser@4.206.99.81
+sshkey.pem : ta clé privée (à garder secrète)
+
+azureuser : utilisateur admin de la VM
+
+🌐 Accès aux différentes instances Wiki.js
+
+Les sous-domaines suivants pointent tous vers la même VM (reverse proxy Nginx) :
+
+    Wiki public général
+    https://publique.wikijspublique.me/
+
+    Wiki enseignant
+    https://enseignant.wikijspublique.me/
+
+    Wiki admin
+    https://admin.wikijspublique.me/
+
+    Remarque : Les domaines doivent être configurés chez ton fournisseur DNS pour pointer vers l’IP publique de la VM Azure.
+    
+💸 Webhook & Paiement PayPal
+
+    Un bouton PayPal personnalisé est accessible sur
+    https://enseignant.wikijspublique.me/bouton/paypal-button.html
+
+    Quand un paiement est validé, le frontend envoie un POST vers le webhook :
+
+        https://enseignant.wikijspublique.me/paypal/webhook
+
+    Le microservice Python/Flask reçoit et logue la transaction dans paypal_log.txt.
+
+
+    
+
+
 📦 Dépendances
 
     Docker
@@ -99,6 +139,7 @@ docker compose -f nginx/docker-compose.yml up -d
 | wiki1       | 3001         | Wiki privé du site 1 |
 | wiki2       | 3002         | Wiki privé du site 2 |
 | wiki-public | 3003         | Wiki public général  |
+
 
 
 💸 Module PayPal Webhook
