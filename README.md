@@ -26,25 +26,44 @@ Un module Python/Flask permet de recevoir les notifications PayPal (webhooks).
 
 ## 📁 Structure du projet
 
-
-wikijs-multisite/ ├── instances/ │   ├── wiki1/ │   ├── wiki2/ │   └── wiki-public/ ├── nginx/ │   ├── docker-compose.yml │   ├── wikijs.conf │   └── bouton/ │       └── paypal-button.html ├── paypal-webhook/ │   ├── docker-compose.yml │   ├── requirements.txt │   ├── webhook.py │   └── paypal_log.txt ├── .github/ │   └── workflows/ │       └── deploy.yml └── README.md
+wikijs-multisite/
+├── instances/
+│ ├── wiki1/
+│ ├── wiki2/
+│ └── wiki-public/
+├── nginx/
+│ ├── docker-compose.yml
+│ ├── wikijs.conf
+│ └── bouton/
+│ └── paypal-button.html
+├── paypal-webhook/
+│ ├── docker-compose.yml
+│ ├── requirements.txt
+│ ├── webhook.py
+│ └── paypal_log.txt
+├── .github/
+│ └── workflows/
+│ └── deploy.yml
+└── README.md
+---
+
 
 ---
 
 ## 🚀 Objectif
 
-- Déployer plusieurs instances Wiki.js isolées via Docker Compose  
-- Gérer les accès multi-domaines avec Nginx (reverse proxy SSL)  
-- Automatiser le déploiement/mise à jour via GitHub Actions  
-- Recevoir et enregistrer les notifications PayPal via un microservice Python/Flask  
+- Déployer plusieurs instances Wiki.js isolées via Docker Compose
+- Gérer les accès multi-domaines avec Nginx (reverse proxy SSL)
+- Automatiser le déploiement/mise à jour via GitHub Actions
+- Recevoir et enregistrer les notifications PayPal via un microservice Python/Flask
 
 ---
 
 ## 🛠️ Prérequis
 
 - Docker & Docker Compose  
-- VM Ubuntu (ex. Azure)  
-- Noms de domaines ou sous-domaines pointant vers la VM  
+- VM Ubuntu (ex: Azure)  
+- Noms de domaines pointant vers la VM  
 - Certificats SSL (Let's Encrypt recommandé)  
 - Clé SSH pour GitHub Actions  
 
@@ -56,22 +75,18 @@ wikijs-multisite/ ├── instances/ │   ├── wiki1/ │   ├── wi
 git clone https://github.com/Hanane-Chaouche/wikijs-multisite.git
 cd wikijs-multisite
 
-
-Lancer les instances Wiki.js :
+# Lancer les instances Wiki.js
 docker compose -f instances/wiki1/docker-compose.yml up -d
 docker compose -f instances/wiki2/docker-compose.yml up -d
 docker compose -f instances/wiki-public/docker-compose.yml up -d
 
-
-Lancer Nginx :
+# Lancer le reverse proxy Nginx
 cd nginx
 docker compose up -d
 
-
-(Optionnel) Lancer le microservice PayPal :
+# (Optionnel) Lancer le microservice webhook PayPal
 cd ../paypal-webhook
 docker compose up -d
-
 
 
 🌍 Accès à la plateforme et aux domaines
@@ -81,13 +96,15 @@ ssh -i sshkey.pem azureuser@4.206.99.81
 
 Remplace sshkey.pem par ta clé privée.
 
-🌐 Instances Wiki.js
-| Instance | URL | 
-| Wiki Public | https://publique.wikijspublique.me/ | 
-| Wiki Enseignant | https://enseignant.wikijspublique.me/ | 
-| Wiki Admin | https://admin.wikijspublique.me/ | 
+🌐 Accès Wiki.js par domaines
 
+    https://publique.wikijspublique.me → wiki-public
 
+    https://enseignant.wikijspublique.me → wiki2
+
+    https://admin.wikijspublique.me → wiki1
+
+Les DNS doivent pointer vers l’IP publique de la VM Azure (4.206.99.81).
 Assure-toi que les DNS pointent vers l’IP publique de ta VM Azure.
 
 
