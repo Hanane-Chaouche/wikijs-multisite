@@ -25,6 +25,7 @@ Un module Python/Flask permet de recevoir les notifications PayPal (webhooks).
 ---
 
 ## 📁 Structure du projet
+```
 
 wikijs-multisite/
 │
