@@ -1,10 +1,12 @@
-#1 Plateforme WikiJS Multi-sites 
+# 🚀 Plateforme Wiki.js Multi-sites & Webhook PayPal
 
 ![CI/CD](https://github.com/Hanane-Chaouche/wikijs-multisite/actions/workflows/deploy.yml/badge.svg)
 
 Ce projet déploie une plateforme multi-instances de [Wiki.js](https://js.wiki/) avec Docker Compose.  
-Chaque instance est isolée, avec sa propre base PostgreSQL, et accessible via un reverse proxy Nginx.  
-Le tout est automatisé avec ***GitHub Actions****.
+Chaque instance a sa propre base PostgreSQL et est accessible via un reverse proxy Nginx avec SSL.  
+Le déploiement est automatisé avec **GitHub Actions**.  
+Un module Python/Flask permet de recevoir les notifications PayPal (webhooks).
+
 
 ---
 
@@ -24,26 +26,39 @@ Le tout est automatisé avec ***GitHub Actions****.
 ## 📁 Structure du projet
 
 ```
-instances/
-├── wiki1/
-├── wiki2/
-└── wiki-public/
-nginx/
-├── docker-compose.yml
-└── wikijs.conf
-.github/
-└── workflows/
-    └── deploy.yml
-README.md
+wikijs-multisite/
+│
+├── instances/
+│ ├── wiki1/
+│ ├── wiki2/
+│ └── wiki-public/
+│
+├── nginx/
+│ ├── docker-compose.yml
+│ ├── wikijs.conf
+│ └── bouton/
+│ └── paypal-button.html
+│
+├── paypal-webhook/
+│ ├── docker-compose.yml
+│ ├── requirements.txt
+│ ├── webhook.py
+│ └── paypal_log.txt
+│
+├── .github/
+│ └── workflows/
+│ └── deploy.yml
+│
+└── README.md
 ```
 
 
 ## 🚀 Objectif
 
-- 🧱 Déployer plusieurs instances Wiki.js isolées via Docker Compose  
-- 🌐 Gérer les accès via Nginx  
-- 🤖 Automatiser le déploiement avec GitHub Actions  
-
+- Déployer plusieurs instances Wiki.js isolées via Docker Compose
+- Gérer les accès multi-domaines avec Nginx (reverse proxy SSL)
+- Automatiser le déploiement/mise à jour via GitHub Actions
+- Recevoir et enregistrer les notifications PayPal via un microservice Python/Flask
 ---
 
 ## 🛠️ Prérequis
@@ -79,10 +94,21 @@ docker compose -f nginx/docker-compose.yml up -d
     GitHub Actions
 
 📘 Instances Wiki.js
-Instance	Port interne	Description
-wiki1	3001	Wiki privé du site 1
-wiki2	3002	Wiki privé du site 2
-wiki-public	3003	Wiki public général
+| Instance    | Port interne | Description          |
+| ----------- | ------------ | -------------------- |
+| wiki1       | 3001         | Wiki privé du site 1 |
+| wiki2       | 3002         | Wiki privé du site 2 |
+| wiki-public | 3003         | Wiki public général  |
+
+
+💸 Module PayPal Webhook
+
+    Dossier : paypal-webhook/
+
+    Microservice Python/Flask qui reçoit les notifications PayPal sur /paypal/webhook
+
+    Les paiements sont logués dans paypal_log.txt
+
 
 🤖 Déploiement automatique
 
