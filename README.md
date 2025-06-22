@@ -89,6 +89,8 @@ docker compose -f nginx/docker-compose.yml up -d
 Pour se connecter à la machine virtuelle Azure :
 
 ssh -i sshkey.pem azureuser@4.206.99.81
+
+
 sshkey.pem : ta clé privée (à garder secrète)
 
 azureuser : utilisateur admin de la VM
