@@ -28,29 +28,28 @@ Un module Python/Flask permet de recevoir les notifications PayPal (webhooks).
 
 wikijs-multisite/
 │
-├── instances/                  # <– Contient les instances Wiki.js (et leurs propres docker-compose)
-│   ├── wiki1/
-│   ├── wiki2/
-│   └── wiki-public/
+├── instances/ # <– Contient les instances Wiki.js
+│ ├── wiki1/
+│ ├── wiki2/
+│ └── wiki-public/
 │
-├── nginx/                      # <– Configuration du reverse proxy Nginx (multi-domaines)
-│   ├── docker-compose.yml
-│   ├── wikijs.conf
-│   └── bouton/
-│        └── paypal-button.html # <– Page HTML pour bouton PayPal
+├── nginx/ # <– Config reverse proxy Nginx
+│ ├── docker-compose.yml
+│ ├── wikijs.conf
+│ └── bouton/
+│ └── paypal-button.html # <– Page HTML pour bouton PayPal
 │
-├── paypal-webhook/             # <– Microservice Python/Flask pour webhooks PayPal
-│   ├── docker-compose.yml
-│   ├── requirements.txt
-│   ├── webhook.py
-│   └── paypal_log.txt
+├── paypal-webhook/ # <– Microservice Python/Flask pour webhooks
+│ ├── docker-compose.yml
+│ ├── requirements.txt
+│ ├── webhook.py
+│ └── paypal_log.txt
 │
-├── .github/                    # <– CI/CD automatisé via GitHub Actions
-│   └── workflows/
-│        └── deploy.yml
+├── .github/ # <– CI/CD automatisé via GitHub Actions
+│ └── workflows/
+│ └── deploy.yml
 │
-└── README.md                   # <– Ce fichier
-
+└── README.md # <– Ce fichier
 ---
 
 ## 🚀 Objectif
