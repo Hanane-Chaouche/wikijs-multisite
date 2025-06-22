@@ -100,7 +100,7 @@ cd ../paypal-webhook
 docker compose up -d
 ```
 
-🌍 Accès à la plateforme et aux domaines
+##🌍 Accès à la plateforme et aux domaines
 🔑 Accès SSH à la VM
 
 ```
@@ -109,7 +109,7 @@ ssh -i sshkey.pem azureuser@4.206.99.81
 
 Remplace sshkey.pem par ta clé privée.
 
-🌐 Accès Wiki.js par domaines
+##🌐 Accès Wiki.js par domaines
 ```
     https://publique.wikijspublique.me → wiki-public
 ```
