@@ -102,19 +102,21 @@ docker compose up -d
 
 🌍 Accès à la plateforme et aux domaines
 🔑 Accès SSH à la VM
+```
 ssh -i sshkey.pem azureuser@4.206.99.81
-
+```
 
 Remplace sshkey.pem par ta clé privée.
 
 🌐 Accès Wiki.js par domaines
-
+```
     https://publique.wikijspublique.me → wiki-public
-
+```
+````
     https://enseignant.wikijspublique.me → wiki2
-
+````
     https://admin.wikijspublique.me → wiki1
-
+````
 Les DNS doivent pointer vers l’IP publique de la VM Azure (4.206.99.81).
 Assure-toi que les DNS pointent vers l’IP publique de ta VM Azure.
 
