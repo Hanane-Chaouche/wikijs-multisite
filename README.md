@@ -79,7 +79,7 @@ wikijs-multisite/
 
 ## ▶️ Démarrage rapide
 
-```bash
+
 git clone https://github.com/Hanane-Chaouche/wikijs-multisite.git
 cd wikijs-multisite
 
