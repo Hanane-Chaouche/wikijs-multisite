@@ -11,16 +11,16 @@ Un module Python/Flask permet de recevoir les notifications PayPal (webhooks).
 
 ## 📑 Sommaire
 
-- [📁 Structure du projet](#-structure-du-projet)
-- [🚀 Objectif](#-objectif)
-- [🛠️ Prérequis](#️-prérequis)
-- [▶️ Démarrage rapide](#️-démarrage-rapide)
-- [🌍 Accès à la plateforme et aux domaines](#-accès-à-la-plateforme-et-aux-domaines)
-- [📦 Dépendances](#-dépendances)
-- [📘 Instances Wiki.js](#-instances-wikijs)
-- [💸 Module PayPal Webhook](#-module-paypal-webhook)
-- [🤖 Déploiement automatique](#-déploiement-automatique)
-- [👤 Auteur](#-auteur)
+- [📁 Structure du projet](#structure-du-projet)
+- [🚀 Objectif](#objectif)
+- [🛠️ Prérequis](#prérequis)
+- [▶️ Démarrage rapide](#démarrage-rapide)
+- [🌍 Accès à la plateforme et aux domaines](#accès-à-la-plateforme-et-aux-domaines)
+- [📦 Dépendances](#dépendances)
+- [📘 Instances Wiki.js](#instances-wikijs)
+- [💸 Module PayPal Webhook](#module-paypal-webhook)
+- [🤖 Déploiement automatique](#déploiement-automatique)
+- [👤 Auteur](#auteur)
 
 ---
 
@@ -50,6 +50,8 @@ wikijs-multisite/
 │ └── deploy.yml
 │
 └── README.md # <– Ce fichier
+
+
 ---
 
 ## 🚀 Objectif
@@ -124,10 +126,12 @@ Les transactions sont enregistrées dans paypal_log.txt.
 - GitHub Actions
 
 📘 Instances Wiki.js
-| Instance | Port Interne | Description | 
-| wiki1 | 3001 | Wiki privé du site 1 | 
-| wiki2 | 3002 | Wiki privé du site 2 | 
-| wiki-public | 3003 | Wiki public général | 
+
+| Instance    | Port Interne | Description          |
+| ----------- | ------------ | -------------------- |
+| wiki1       | 3001         | Wiki privé du site 1 |
+| wiki2       | 3002         | Wiki privé du site 2 |
+| wiki-public | 3003         | Wiki public général  |
 
 
 
