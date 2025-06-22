@@ -29,8 +29,17 @@ def show_logs():
     with open(LOG_FILE, "r") as f:
         lines = f.readlines()
 
-    html = "<h2>Transactions PayPal reçues :</h2><ul>"
-    for line in lines:
-        html += f"<li><pre>{line.strip()}</pre></li>"
+    html = """
+    <h2>Transactions PayPal reçues :</h2>
+    <ul>
+    """
+    for i, line in enumerate(lines, 1):
+        try:
+            data = json.loads(line)
+            pretty_json = json.dumps(data, indent=2, ensure_ascii=False)
+            html += f"<li><details><summary>Transaction #{i}</summary><pre>{pretty_json}</pre></details></li>"
+        except Exception as e:
+            html += f"<li><pre>{line.strip()}</pre></li>"
+
     html += "</ul>"
     return Response(html, mimetype='text/html')
