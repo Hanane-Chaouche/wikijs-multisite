@@ -1,5 +1,3 @@
-# Test déclenchement GitHub Actions
-
 services:
   db:
     image: postgres:13
