@@ -1,4 +1,4 @@
-#1 🚀 Plateforme Wiki.js Multi-sites & Webhook PayPal
+#1 Plateforme Wiki.js Multi-sites & Webhook PayPal
 
 ## CI/CD
 
