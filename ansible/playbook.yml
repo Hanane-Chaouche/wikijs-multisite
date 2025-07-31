@@ -100,16 +100,7 @@
         state: present
         update_cache: yes
 
-    - name: Générer/renouveler le certificat Let's Encrypt multi-sous-domaines
-      community.letsencrypt.certbot:
-        domains: "{{ wikijs_domains }}"
-        email: "{{ certbot_email }}"
-        authenticator: nginx
-        agree_tos: yes
-        force: no
-        register_unsafely_without_email: no
-        staging: no
-      notify: Reload Nginx
+   
 
   handlers:
     - name: Reload Nginx
