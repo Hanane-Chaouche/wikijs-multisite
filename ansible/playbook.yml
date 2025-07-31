@@ -14,7 +14,7 @@
       - admin.wikijspublique.me
       - enseignant.wikijspublique.me
       - publique.wikijspublique.me
-    certbot_email: "ton.email@example.com"
+    certbot_email: "chamer6@hotmail.com"
 
   tasks:
     - name: Installer les dépendances système
