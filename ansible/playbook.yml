@@ -1,6 +1,6 @@
 ---
-- name: Déploiement complet Wiki.js multisite avec Nginx, Docker et Certbot
-  hosts: wikijs_servers
+- name: Déploiement complet Wiki.js multisite avec Nginx et Docker (sans Certbot)
+  hosts: wikijs_servers          # <-- corrige ici
   become: yes
 
   vars:
@@ -10,17 +10,12 @@
       - wikinet1
       - wikinet2
       - wikinet3
-    wikijs_domains:
-      - admin.wikijspublique.me
-      - enseignant.wikijspublique.me
-      - publique.wikijspublique.me
-    certbot_email: "chamer6@hotmail.com"
 
   tasks:
     - name: Installer les dépendances système
       apt:
         name:
-          - apt-transport-https
+          - apt-transport-https        # optionnel sur Ubuntu récents
           - ca-certificates
           - curl
           - gnupg
@@ -60,9 +55,10 @@
         repo: "{{ repo_url }}"
         dest: "{{ repo_dest }}"
         version: main
-        force: yes
+        force: no            # <-- évite l'écrasement
+        update: yes
 
-    - name: Créer les réseaux Docker
+    - name: Créer les réseaux Docker (idempotent best-effort)
       shell: "docker network create {{ item }} || true"
       loop: "{{ docker_networks }}"
 
@@ -91,18 +87,7 @@
       args:
         chdir: "{{ repo_dest }}/paypal-webhook"
 
-    # Certbot et certificat SSL automatisé
-    - name: Installer Certbot et le plugin Nginx
-      apt:
-        name:
-          - certbot
-          - python3-certbot-nginx
-        state: present
-        update_cache: yes
-
-   
-
   handlers:
     - name: Reload Nginx
       shell: docker exec nginx nginx -s reload
-      ignore_errors: yes
+      ignore_errors: yes     # <-- corrige ici
