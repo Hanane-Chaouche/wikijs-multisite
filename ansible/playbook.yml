@@ -1,6 +1,6 @@
 ---
 - name: Déploiement complet Wiki.js multisite avec Nginx, Docker et Certbot
-  hosts: wikijs-servers
+  hosts: wikijs_servers
   become: yes
 
   vars:
