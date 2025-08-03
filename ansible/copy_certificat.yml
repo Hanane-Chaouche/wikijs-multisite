@@ -1,0 +1,46 @@
+---
+- name: Copier le certificat SSL depuis l'ancien serveur vers la nouvelle VM
+  hosts: azurevm         # Cible : la nouvelle machine (serveur de destination)
+  become: yes            # Exécution des tâches avec les privilèges root
+
+  vars:
+    cert_source_path: /etc/letsencrypt/live/admin.wikijspublique.me  # Chemin du certificat sur l'ancien serveur
+    cert_files:
+      - fullchain.pem     # Fichier de la chaîne complète du certificat
+      - privkey.pem       # Clé privée
+    temp_dir: /tmp/certs_temp  # Dossier temporaire local sur la machine de contrôle
+    dest_path: /etc/letsencrypt/live/admin.wikijspublique.me  # Chemin de destination sur la nouvelle VM
+
+  tasks:
+
+    - name: Créer un dossier temporaire sur la machine de contrôle
+      delegate_to: localhost          # Cette tâche s'exécute sur ta propre machine (noeud de contrôle Ansible)
+      file:
+        path: "{{ temp_dir }}"        # Dossier local temporaire pour stocker les certificats
+        state: directory
+        mode: '0700'                  # Permissions sécurisées (accès au propriétaire uniquement)
+
+    - name: Récupérer les fichiers de certificat depuis l'ancien serveur
+      fetch:
+        src: "{{ cert_source_path }}/{{ item }}"  # Emplacement du fichier sur l'ancien serveur
+        dest: "{{ temp_dir }}/"                   # Où les stocker sur le noeud de contrôle
+        flat: yes                                 # Évite de recréer toute l’arborescence du chemin
+      delegate_to: ancienvm                       # Cette tâche est exécutée depuis l'ancien serveur (source)
+      loop: "{{ cert_files }}"                    # On récupère les fichiers un par un
+
+    - name: Créer le dossier de destination sur la nouvelle VM
+      file:
+        path: "{{ dest_path }}"     # Crée le dossier final où seront placés les certificats
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'                # Droits classiques pour un dossier système
+
+    - name: Copier les fichiers de certificat sur la nouvelle VM
+      copy:
+        src: "{{ temp_dir }}/{{ item }}"           # Chemin local du fichier temporaire
+        dest: "{{ dest_path }}/{{ item }}"         # Emplacement final sur la VM
+        owner: root
+        group: root
+        mode: '0600'                               # Permissions sécurisées (lecture seule pour root)
+      loop: "{{ cert_files }}"
